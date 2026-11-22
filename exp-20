@@ -1,0 +1,37 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Dataset
+data = pd.DataFrame({
+    'Month': [1, 2, 3, 4, 5, 6, 7, 8],
+    'Sales': [100, 120, 150, 170, 200, 220, 250, 280]
+})
+
+# Input and output
+X = data[['Month']]
+y = data['Sales']
+
+# Create model
+model = LinearRegression()
+
+# Train model
+model.fit(X, y)
+
+# Predict future sales
+future_month = [[9], [10], [11], [12]]
+prediction = model.predict(future_month)
+
+# Display results
+print("Future Sales Prediction:")
+
+for month, sales in zip(range(9, 13), prediction):
+    print("Month", month, "Sales:", round(sales, 2))
+
+# Plot graph
+plt.scatter(X, y)
+plt.plot(X, model.predict(X))
+plt.xlabel("Month")
+plt.ylabel("Sales")
+plt.title("Future Sales Prediction")
+plt.show()
