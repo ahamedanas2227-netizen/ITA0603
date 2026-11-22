@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.mixture import GaussianMixture
+
+# Dataset
+X = np.array([
+    [1, 2], [2, 3], [3, 3],
+    [8, 8], [9, 8], [8, 9]
+])
+
+# Create EM model
+model = GaussianMixture(n_components=2, random_state=42)
+
+# Train model
+model.fit(X)
+
+# Predict clusters
+labels = model.predict(X)
+
+# Display results
+print("Cluster Labels:", labels)
+print("Cluster Means:")
+print(model.means_)
+
+# Plot graph
+plt.scatter(X[:, 0], X[:, 1], c=labels)
+plt.title("Expectation Maximization Algorithm")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.show()
