@@ -1,0 +1,47 @@
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+
+data = pd.DataFrame({
+    'Outlook': ['Sunny', 'Sunny', 'Overcast', 'Rain', 'Rain', 'Rain',
+                'Overcast', 'Sunny', 'Sunny', 'Rain', 'Sunny', 'Overcast',
+                'Overcast', 'Rain'],
+    'Temperature': ['Hot', 'Hot', 'Hot', 'Mild', 'Cool', 'Cool',
+                    'Cool', 'Mild', 'Cool', 'Mild', 'Mild', 'Mild',
+                    'Hot', 'Mild'],
+    'Humidity': ['High', 'High', 'High', 'High', 'Normal', 'Normal',
+                 'Normal', 'High', 'Normal', 'Normal', 'Normal', 'High',
+                 'Normal', 'High'],
+    'Wind': ['Weak', 'Strong', 'Weak', 'Weak', 'Weak', 'Strong',
+             'Strong', 'Weak', 'Weak', 'Weak', 'Strong', 'Strong',
+             'Weak', 'Strong'],
+    'Play': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No',
+             'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes',
+             'Yes', 'No']
+})
+
+le = LabelEncoder()
+
+for column in data.columns:
+    data[column] = le.fit_transform(data[column])
+
+X = data.drop('Play', axis=1)
+y = data['Play']
+
+model = DecisionTreeClassifier(criterion='entropy')
+model.fit(X, y)
+
+print("Decision Tree Classification:")
+
+plot_tree(model, feature_names=X.columns,
+          class_names=['No', 'Yes'], filled=True)
+
+plt.show()
+
+sample = [[2, 1, 0, 1]]
+
+prediction = model.predict(sample)
+
+print("New Sample Prediction:",
+      "Yes" if prediction[0] == 1 else "No")
